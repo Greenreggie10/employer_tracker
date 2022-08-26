@@ -1,0 +1,1 @@
+insert (name) into department values('')
