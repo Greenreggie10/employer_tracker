@@ -1,10 +1,11 @@
-const connection = require('../config/connection');
+const connection = require('./config/connection');
+
 
 
 
 module.exports = {
-    getAllEmployees(){
+    viewAllEmployees(){
        return connection.query('SELECT * FROM employees');
     }
-
-};
+    
+    };
