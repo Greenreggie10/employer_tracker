@@ -58,9 +58,33 @@ async function viewAllEmployees() {
 };
 async function addEmployee () {
     try {
-      const [ data ] = await db.query('INSERT INTO employee SET ?;');
 
-      console.table(data);
+      const promptData = await inquirer.prompt([
+        {
+            type: 'text',
+            name: 'first_name',
+            message: "What is your employee's first name?",
+        },
+        {
+            type: 'text',
+            name: 'last_name',
+            message: "What is your employee's last name?",
+        },
+        {
+            type: 'number',
+            name: 'role_id',
+            message: "What is your employee's role id?",
+        },
+        {
+            type: 'number',
+            name: 'manager_id',
+            message: "What is your employee's manager id?",
+        }
+      ]);
+
+      const [ data ] = await db.query('INSERT INTO employee SET ?', promptData);
+
+      console.log('\n', 'Employee Added!', '\n')
 
       mainMenu();
 
