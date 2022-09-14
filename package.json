@@ -1,0 +1,26 @@
+{
+  "name": "employer_tracker",
+  "version": "1.0.0",
+  "description": "!-- Title \r # employer_tracker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Greenreggie10/employer_tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Greenreggie10/employer_tracker/issues"
+  },
+  "homepage": "https://github.com/Greenreggie10/employer_tracker#readme",
+  "keywords": [],
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.3.3"
+  }
+}
