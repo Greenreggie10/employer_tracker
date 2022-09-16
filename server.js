@@ -94,7 +94,7 @@ async function addEmployee () {
 };
 async function viewAllRoles() {
     try {
-      const [ data ] = await db.query('SELECT * FROM roles');
+      const [ data ] = await db.query('SELECT * FROM role');
 
       console.table(data);
 
@@ -127,16 +127,48 @@ async function addRole() {
 };
 async function updateEmplyeesRole() {
     try {
-      const [ data ] = await db.query('UPDATE employees SET role_id = ? where id = ?', [ role_id, id ]);
+        const [ roles ] = await db.query('SELECT * FROM role');
+        console.log (roles);
+        const roleObj = roles.map(role => {
+            return {key: role.id, value:role.title}
+        });
+       console.log(roleObj);
 
-      console.table(data);
+        const [ employees ] = await db.query('SELECT * FROM employee');
+        console.log (employees);
+        const employeeObj = employees.map((employee) => {
+            return {key: employee.id, value:`${employee.first_name} ${employee.last_name}`}
+        });
+       console.log(employeeObj);
+      inquirer.prompt([
+        {
+            type: 'list',
+            name: 'employee',
+            message: 'What employee_id would you like to assign this employee?',
+            choices: employeeObj
+        },
+        {
+            type: 'list',
+            name: 'role',
+            message: 'What role_id would you like to assign this employee?',
+            choices: roleObj
+        }
 
-      mainMenu();
+      ]).then((answers => {
+        console.log(answers);
+        
+              //add info console log 
+              const [ data ] = await db.query (('UPDATE employees SET role = ? where id = ?', [ answers.role, answers.employee ])
+        
+              console.log(data);
+              
+            } catch(err) {  
+                console.log(err);
+            }
+            ;
+              mainMenu();
+            
 
-    } catch(err) {  
-        console.log(err);
-    }
-};
 async function addDepartment() {
    
 
