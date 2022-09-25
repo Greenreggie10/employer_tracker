@@ -27,7 +27,7 @@ function mainMenu() {
                 return addRole();
             case ('Update Employees Role'):
                 return updateEmplyeesRole();
-            case ('View All Departments'):
+            case (' View All Departments'):
                 return viewAllDepartments();
             case ('Add Department'):
                 return addDepartment();
@@ -35,7 +35,7 @@ function mainMenu() {
                 return Goodbye();
             default:
                 console.log('default')
-                // process.exit(1);
+            // process.exit(1);
         }
     });
 
@@ -44,153 +44,198 @@ function mainMenu() {
 //add function
 
 
-async function viewAllEmployees() {
+async function Goodbye() {
     try {
-      const [ data ] = await db.query('SELECT * FROM employee');
+        
+        
+        console.log('Goodbye');
 
-      console.table(data);
 
-      mainMenu();
-
-    } catch(err) {  
+    } catch (err) {
         console.log(err);
     }
 };
-async function addEmployee () {
+
+async function viewAllDepartments() {
+    try {
+        
+        const [data] = await db.query('SELECT * FROM department');
+        
+        console.table(data);
+
+        mainMenu();
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+
+async function viewAllEmployees() {
+    try {
+        const [data] = await db.query('SELECT * FROM employee');
+
+        console.table(data);
+
+        mainMenu();
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+async function addEmployee() {
     try {
 
-      const promptData = await inquirer.prompt([
-        {
-            type: 'text',
-            name: 'first_name',
-            message: "What is your employee's first name?",
-        },
-        {
-            type: 'text',
-            name: 'last_name',
-            message: "What is your employee's last name?",
-        },
-        {
-            type: 'number',
-            name: 'role_id',
-            message: "What is your employee's role id?",
-        },
-        {
-            type: 'number',
-            name: 'manager_id',
-            message: "What is your employee's manager id?",
-        }
-      ]);
+        const promptData = await inquirer.prompt([
+            {
+                type: 'text',
+                name: 'first_name',
+                message: "What is your employee's first name?",
+            },
+            {
+                type: 'text',
+                name: 'last_name',
+                message: "What is your employee's last name?",
+            },
+            {
+                type: 'number',
+                name: 'role_id',
+                message: "What is your employee's role id?",
+            },
+            {
+                type: 'number',
+                name: 'manager_id',
+                message: "What is your employee's manager id?",
+            }
+        ]);
 
-      const [ data ] = await db.query('INSERT INTO employee SET ?', promptData);
+        const [data] = await db.query('INSERT INTO employee SET ?', promptData);
 
-      console.log('\n', 'Employee Added!', '\n')
+        console.log('\n', 'Employee Added!', '\n')
 
-      mainMenu();
+        mainMenu();
 
-    } catch(err) {  
+    } catch (err) {
         console.log(err);
     }
 };
 async function viewAllRoles() {
     try {
-      const [ data ] = await db.query('SELECT * FROM role');
+        const [data] = await db.query('SELECT * FROM role');
 
-      console.table(data);
+        console.table(data);
 
-      mainMenu();
+        mainMenu();
 
-    } catch(err) {  
+    } catch (err) {
         console.log(err);
     }
 };
 async function addRole() {
-    const role = {
-
-
-        title:'',
-        salary: 10000,
-        department_id: 1,
-
-
-    }
-    try {
-      const [ data ] = await db.query('INSERT INTO role SET ?; ', role);
-
-      console.table(data);
-
-      mainMenu();
-
-    } catch(err) {  
-        console.log(err);
-    }
-};
-async function updateEmplyeesRole() {
-    try {
-        const [ roles ] = await db.query('SELECT * FROM role');
-        console.log (roles);
-        const roleObj = roles.map(role => {
-            return {key: role.id, value:role.title}
-        });
-       console.log(roleObj);
-
-        const [ employees ] = await db.query('SELECT * FROM employee');
-        console.log (employees);
-        const employeeObj = employees.map((employee) => {
-            return {key: employee.id, value:`${employee.first_name} ${employee.last_name}`}
-        });
-       console.log(employeeObj);
-      inquirer.prompt([
+   const role = await inquirer.prompt([
         {
-            type: 'list',
-            name: 'employee',
-            message: 'What employee_id would you like to assign this employee?',
-            choices: employeeObj
+            type: 'text',
+            name: 'title',
+            message: "What is your new role called?",
         },
         {
-            type: 'list',
-            name: 'role',
-            message: 'What role_id would you like to assign this employee?',
-            choices: roleObj
+            type: 'number',
+            name: 'salary',
+            message: "What is your desired salary?",
+        },
+        {
+            type: 'number',
+            name: 'department_id',
+            message: "What is your employee's department id?",
         }
 
-      ]).then((answers => {
-        console.log(answers);
-        
-              //add info console log 
-              const [ data ] = await db.query (('UPDATE employees SET role = ? where id = ?', [ answers.role, answers.employee ])
-        
-              console.log(data);
-              
-            } catch(err) {  
-                console.log(err);
-            }
-            ;
-              mainMenu();
-            
+    ])
+       
+            console.log(role)
+            try {
+                const [data] = await db.query('INSERT INTO role SET ?; ', role);
 
+                console.table(data);
+
+                mainMenu();
+
+            } catch (err) {
+                console.log(err);
+
+            };
+
+        };
+async function updateEmplyeesRole() {
+    try {
+        const [roles] = await db.query('SELECT * FROM role');
+        console.log(roles);
+        const roleObj = roles.map(role => {
+            return { key: role.id, value: role.title }
+        });
+        console.log(roleObj);
+
+        const [employees] = await db.query('SELECT * FROM employee');
+        console.log(employees);
+        const employeeObj = employees.map((employee) => {
+            return { key: employee.id, value: `${employee.first_name} ${employee.last_name}` }
+        });
+        console.log(employeeObj);
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'employee',
+                message: 'What employee_id would you like to assign this employee?',
+                choices: employeeObj
+            },
+            {
+                type: 'list',
+                name: 'role',
+                message: 'What role_id would you like to assign this employee?',
+                choices: roleObj
+            }
+
+
+        ]).then(answers => {
+            console.log(answers);
+
+            //add info console log 
+            const [data] = db.query(('UPDATE employees SET role = ? where id = ?', [answers.role, answers.employee_id]));
+
+            console.log(data);
+
+        }).catch(error => {
+            console.error(error);
+        })
+
+        mainMenu();
+
+    } catch (error) {
+        console.error(error)
+    };
+}
 async function addDepartment() {
-   
+
 
     try {
-      const department = await inquirer.prompt([{
-         
-        
+        const department = await inquirer.prompt([{
+
+
             type: 'input',
             name: 'name',
             message: 'What is the name of department to add?',
 
-      }]);
+        }]);
 
-      const [ data ] = await db.query('INSERT INTO department SET ?;', department);
+        const [data] = await db.query('INSERT INTO department SET ?;', department);
 
-      console.table(data);
+        console.table(data);
 
-      mainMenu();
+        mainMenu();
 
-    } catch(err) {  
+    } catch (err) {
         console.log(err);
     }
 };
+
 
 mainMenu();
