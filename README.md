@@ -11,12 +11,12 @@ To use the application, you will need to clone the repo to your local machine, t
 
 ## !-- stillshot of site -->
 
-![alt text]()
+![alt text](./assets/images/Screenshot(employer%20tacker).png)
 
 
 ## !-- Video --> 
-See the video of application functioning 
-[Video of application]()
+Click the video of functioning application
+[Video of application](https://drive.google.com/file/d/1UXIMKfj9WOHWWt-yjykUGZNG9pPLI-bs/view)
 
 
 

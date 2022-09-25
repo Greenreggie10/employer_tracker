@@ -203,9 +203,7 @@ async function updateEmplyeesRole() {
 
             console.log(data);
 
-        }).catch(error => {
-            console.error(error);
-        })
+        });
 
         mainMenu();
 
